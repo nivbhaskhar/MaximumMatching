@@ -8,35 +8,6 @@ import unittest
 from  maximum_matching import *
 
 
-
-# class Matching:
-#     #match_dict = {v: match[v] for all v in vertex_list}
-#     #Note: If no match, match[v] is set to  None
-#     def __init__(self, match_dict):
-#          self.matchededges = set()
-#          self.matchedvertices = set()
-#          cardinality = 0
-#          for v in match_dict:
-#              if match_dict[v]!= None:
-#                  self.matchedvertices.add(v)
-#                  cardinality += 1
-#                  self.matchededges.add((v,match_dict[v]))
-
-    
-#          self.cardinality = (cardinality//2)
-#          self.matchdict = match_dict
-         
-         
-         
-#     def xor_even_path(self, even_path):
-#          #even_path = [(v_0,v_1), (v_1,v_2),...,(v_{2n-1}, v_2n)]
-         
-
-#     def xor_aug_path(self, aug_path):
-#          #aug_path = [(v_0,v_1), (v_1,v_2),...,(v_{n-1}, v_n)]
-     
-
-
 class TestForestMethods(unittest.TestCase):
      def setUp(self):
           self.forest = Forest()
@@ -134,6 +105,8 @@ class TestMatchingMethods(unittest.TestCase):
 
 
      def test_matching_init(self):
+          
+         #checking if Matching object is set up correctly 
          self.assertEqual(self.matching.matchededges,
                           {(9, 0), (11, 10), (3, 12), (10, 11), (0, 9), (4, 2), (2, 4), (12, 3)})
          self.assertEqual(self.matching.matchedvertices, {0, 2, 3, 4, 9, 10, 11, 12})
@@ -145,8 +118,11 @@ class TestMatchingMethods(unittest.TestCase):
 
 
      def test_xor_even_path(self):
+          #xoring even path to test case
           self.matching.xor_even_path([(1,3),(3,12)])
 
+          
+          #checking xor_even_path on test case
           self.assertEqual(self.matching.matchededges,
                           {(9, 0), (11, 10), (3, 1), (10, 11), (0, 9), (4, 2), (2, 4), (1, 3)})
           self.assertEqual(self.matching.matchedvertices, {0,1, 2, 3, 4, 9, 10, 11})
@@ -157,8 +133,10 @@ class TestMatchingMethods(unittest.TestCase):
            
 
      def test_xor_aug_path(self):
+         #creating first test case
          self.matching.xor_aug_path([(1,2),(2,4),(4,5)])
-
+         
+         #checking xor_aug_path on first test case
          self.assertEqual(self.matching.matchededges,
                           {(9, 0), (11, 10), (3, 12), (10, 11), (0, 9), (1, 2), (2, 1), (12, 3), (4,5), (5,4)})
          self.assertEqual(self.matching.matchedvertices, {0,1, 2, 3, 4, 5, 9, 10, 11,12})
@@ -166,11 +144,56 @@ class TestMatchingMethods(unittest.TestCase):
                           {0: 9, 1: 2, 2: 1, 3: 12, 4: 5, 5: 4, 6: None,
                            7: None, 8: None, 9: 0, 10: 11, 11: 10, 12:3})         
          self.assertEqual(self.matching.cardinality, 5)
+
+         #creating second test case
+         new_matching = Matching( {0: 9, 1: 2, 2: 1, 3: 12, 4: 5, 5: 4, 6: None,
+                                   7: None, 8: None, 9: 0, 10: 11, 11: 10, 12:3, 13: None})
+         new_matching.xor_aug_path([(13,5),(5,4),(4,2),(2,1),(1,8)])
+
+         #checking xor_aug_path on second test case
+         self.assertEqual(new_matching.matchededges,
+                          {(1,8),(8,1),(2,4),(4,2),(5,13),(13,5),(0,9),(9,0),(11,10),(10,11),(3,12),(12,3)})
+         self.assertEqual(new_matching.matchedvertices, {0,1, 2, 3, 4, 5,8, 9, 10, 11,12,13})
+         self.assertEqual(new_matching.matchdict,
+                          {0: 9, 1: 8, 2: 4, 3: 12, 4: 2, 5: 13, 6: None,
+                           7: None, 8: 1, 9: 0, 10: 11, 11: 10, 12:3, 13: 5})
+         self.assertEqual(new_matching.cardinality, 6)
+         
+
+
+class TestGraphCreation(unittest.TestCase):
+    
+     def test_create_graph_adjacency_dict(self):
           
+           #checking adjacency matrix row length matches with number of vertices
+           with self.assertRaises(AssertionError):
+                create_graph_adjacency_dict([[0,1],[1,0]], [1,2,3])
+
+           #checking adjacency matrix is symmetric
+           adjacency_matrix = [[0,1,1,1,0],[1,0,1,1,0],[1,1,0,0,0],[1,0,0,0,0],[0,0,0,0,0]]
+           with self.assertRaises(AssertionError):
+                create_graph_adjacency_dict(adjacency_matrix, [1,5,7,2,3])
+          
+                
+           #creating new adjacency matrix test case
+           adjacency_matrix = [[0,1,1,1,0],[1,0,1,0,0],[1,1,0,0,0],[1,0,0,0,0],[0,0,0,0,0]]
+           list_of_vertices = [1,5,7,2,3]
+           graph_adjacency_dict = create_graph_adjacency_dict(adjacency_matrix, list_of_vertices)
+           for v in graph_adjacency_dict:
+                graph_adjacency_dict[v].sort()
+
+           #checking new adjacency matrix test case
+           self.assertEqual(graph_adjacency_dict, {1:[2,5,7] , 5: [1,7], 7: [1,5], 2:[1], 3:[]})
+
      
-          
-#TODO
+
+         
+     def test_create_quotient(self):
+     #(vertices, graph_adj_dict, current_matching, blossom_vertices, least_common_ancestor):
+          pass
+
 class TestMaxMatchingComponentFunctions(unittest.TestCase):
+     
      def setUp(self):
          pass
 
@@ -178,16 +201,6 @@ class TestMaxMatchingComponentFunctions(unittest.TestCase):
      def tearDown(self):
          pass
 
-
-    
-     def test_create_graph_adjacency_dict(self):
-     #(adjacency_matrix, list_of_vertices):
-          pass
-
-         
-     def test_create_quotient(self):
-     #(vertices, graph_adj_dict, current_matching, blossom_vertices, least_common_ancestor):
-          pass
 
      def test_find_even_path(self):
      #(node, blossom_cycle)
@@ -197,6 +210,9 @@ class TestMaxMatchingComponentFunctions(unittest.TestCase):
      #(graph_adjacency_dict, current_matching, vertices):
           pass
 
+
+class TestMaxAndMaximalMatching(unittest.TestCase):
+   
      def test_find_max_matching(self):
      #(graph_adjacency_dict, current_matching, vertices):
           pass
@@ -209,6 +225,8 @@ class TestMaxMatchingComponentFunctions(unittest.TestCase):
      def test_run_blossoms_algorithm(self):
      #(adjacency_matrix, list_of_vertices = None):
           pass
+
+     
 
 if __name__ == "__main__":
      unittest.main()

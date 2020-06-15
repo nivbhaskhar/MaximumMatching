@@ -289,13 +289,17 @@ def find_a_maximal_matching(graph_adjacency_dict,vertices):
 
 def create_graph_adjacency_dict(adjacency_matrix, list_of_vertices):
      """returns the graph adjacency dictionary given the adjacency matrix, list_of_vertices"""
-
+     assert(len(adjacency_matrix) == len(list_of_vertices)), "no_of_vertices not compatible with adjacency matrix row dimension"
      n = len(list_of_vertices)
      graph_adjacency_dict = defaultdict(list)
      for i in range(n):
           for j in range(n):
+              assert(adjacency_matrix[i][j] == adjacency_matrix[j][i]), "adjacency matrix is not symmetric"
               if adjacency_matrix[i][j] == 1:
-                   graph_adjacency_dict[list_of_vertices[i]].append(list_of_vertices[j]) 
+                   graph_adjacency_dict[list_of_vertices[i]].append(list_of_vertices[j])
+              else:
+                   graph_adjacency_dict[list_of_vertices[i]].extend([])
+         
      return graph_adjacency_dict
 
 
@@ -309,6 +313,15 @@ def run_blossoms_algorithm(adjacency_matrix, list_of_vertices = None):
      no_of_vertices = len(adjacency_matrix)
      if list_of_vertices is None:
           list_of_vertices = list(range(no_of_vertices))
+          
+     #ensuring matrix dimensions are compatible with list of_vertices
+     assert(no_of_vertices == len(list_of_vertices)), "no_of_vertices not compatible with adjacency matrix row dimension"
+     assert(all([no_of_vertices == len(adjacency_matrix[row]) for row in adjacency_matrix])), "no_of_vertices not compatible with adjacency matrix col dimension"
+
+
+     
+
+     
           
      #Create graph_adjacency_dict
      graph_adjacency_dict =  create_graph_adjacency_dict(adjacency_matrix, list_of_vertices)
