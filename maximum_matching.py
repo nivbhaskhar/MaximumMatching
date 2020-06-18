@@ -215,7 +215,9 @@ def find_aug_path(graph_adjacency_dict, current_matching, vertices):
                        else:
                             if (vertex_label[w] % 2) == 0:
                                  if F.rootdict[w] != F.rootdict[v]:
-                                      my_aug_path = list(reversed(F.path_to_root(v)))
+                                      my_aug_path = []
+                                      for edge in reversed(F.path_to_root(v)):
+                                           my_aug_path.append((edge[1], edge[0]))
                                       my_aug_path.append((v,w))
                                       my_aug_path.extend(F.path_to_root(w))
                                       return my_aug_path
@@ -269,12 +271,13 @@ def find_max_matching(graph_adjacency_dict, current_matching, vertices):
      
 def find_a_maximal_matching(graph_adjacency_dict,vertices):
      """returns a maximal matching given vertices(set) and graph_adjacency_dict"""
+     
      my_match_dict = {}
      outdegree = {}
      for v in vertices:
           my_match_dict[v] = None
           outdegree[v] = len(graph_adjacency_dict[v])
-         
+          
      for v in sorted(outdegree, key=outdegree.get):
        if my_match_dict[v] is None:
                candidates = [w for w in graph_adjacency_dict[v] if my_match_dict[w] == None]
@@ -282,8 +285,7 @@ def find_a_maximal_matching(graph_adjacency_dict,vertices):
                     w = min(candidates, key = lambda x: outdegree[x])
                     my_match_dict[v] = w
                     my_match_dict[w] = v
-                    
-             
+ 
      return  Matching(my_match_dict)
 
 
@@ -317,10 +319,6 @@ def run_blossoms_algorithm(adjacency_matrix, list_of_vertices = None):
      #ensuring matrix dimensions are compatible with list of_vertices
      assert(no_of_vertices == len(list_of_vertices)), "no_of_vertices not compatible with adjacency matrix row dimension"
      assert(all([no_of_vertices == len(adjacency_matrix[row]) for row in adjacency_matrix])), "no_of_vertices not compatible with adjacency matrix col dimension"
-
-
-     
-
      
           
      #Create graph_adjacency_dict
