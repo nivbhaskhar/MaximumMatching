@@ -315,10 +315,11 @@ def run_blossoms_algorithm(adjacency_matrix, list_of_vertices = None):
      no_of_vertices = len(adjacency_matrix)
      if list_of_vertices is None:
           list_of_vertices = list(range(no_of_vertices))
+
           
      #ensuring matrix dimensions are compatible with list of_vertices
      assert(no_of_vertices == len(list_of_vertices)), "no_of_vertices not compatible with adjacency matrix row dimension"
-     assert(all([no_of_vertices == len(adjacency_matrix[row]) for row in adjacency_matrix])), "no_of_vertices not compatible with adjacency matrix col dimension"
+     assert(all([no_of_vertices == len(row) for row in adjacency_matrix])), "no_of_vertices not compatible with adjacency matrix col dimension"
      
           
      #Create graph_adjacency_dict
@@ -332,7 +333,7 @@ def run_blossoms_algorithm(adjacency_matrix, list_of_vertices = None):
      final_match_dict, no_of_matched_edges = find_max_matching(graph_adjacency_dict, current_matching, vertices)
 
      #Print results and statistics
-     print("Maximum Matching", end ='')
+     print("Maximum Matching : ", end ='')
      pprint.pprint(final_match_dict)
 
      print(f"Number of matched edges : {no_of_matched_edges}")
