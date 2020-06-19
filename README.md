@@ -10,14 +10,14 @@ This repository contains a Python implementation of Blossoms algorithm to find m
 ## Contents
 
 ### Code
-* ![Examples](ExamplesForBlossomsAlgorithm.ipynb)  
-* ![Implementation (Python code)](maximum_matching.py)  
-* ![Unit tests](unittest_maximum_matching.py)
+* [Examples](ExamplesForBlossomsAlgorithm.ipynb)  
+* [Implementation (Python code)](maximum_matching.py)  
+* [Unit tests](unittest_maximum_matching.py)
 
 ### Notes
-* ![Unit test cases](unittest_testcases.pdf)    
-* ![Pseudocode](Blossoms_pseudocode.pdf)  
-* ![Theory behind the algorithm](MaximumMatching_theory.pdf)  
+* [Unit test cases](unittest_testcases.pdf)    
+* [Pseudocode](Blossoms_pseudocode.pdf)  
+* [Theory behind the algorithm](MaximumMatching_theory.pdf)  
 
 
 
