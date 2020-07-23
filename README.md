@@ -1,6 +1,8 @@
 # Maximum Matching
 
+
 This repository contains a Python implementation of Blossoms algorithm to find maximum matching in *any* undirected graph. I also write down unit tests to test the various functions in the algorithm. Finally, the notebook shows the input outputs for a few example cases for the overall algorithm.
+
 
 <p align="center">
 <img src="a_blossom.png" alt="Blossom!">
