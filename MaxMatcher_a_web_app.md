@@ -4,22 +4,9 @@ We give the code to build a web-app built using Gradio which outputs a maximum m
 
 
 ```python
-#PIL
-from PIL import Image
-from pylab import array
+
 import pprint 
 
-#Math and numpy
-import math
-import numpy as np
-
-#Random
-from random import seed
-from random import randint
-from random import sample
-
-#Matplotlib
-import matplotlib.pyplot as plt
 
 #Gradio
 import gradio as gr
