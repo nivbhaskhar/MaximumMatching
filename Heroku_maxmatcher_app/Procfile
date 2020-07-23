@@ -1,0 +1,1 @@
+web: source setup.sh && python MaxMatcher_a_web_app.py
